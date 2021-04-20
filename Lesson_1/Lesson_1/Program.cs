@@ -13,7 +13,7 @@ namespace Lesson_1
             public string Expected { get; set; }
             public Exception ExpectedException { get; set; }
         }
-
+        // Тестовый класс для числа Фибоначчи
         public class TestCase_2
         {
             public int Number { get; set; }
@@ -134,7 +134,8 @@ namespace Lesson_1
             }
             return previous;
         }
-        static void Test_Fibonachi(TestCase_2 testCase)
+        // Тестовая функция для числа Фибоначчи
+        static void Test_Fibonachi(TestCase_2 testCase) 
         {
             try
             {
