@@ -6,7 +6,8 @@ namespace Lesson_4
 {
     public class GenString
     {
-        public static string GenericString(string set, int lenght)
+        public static string set = "1234567890";
+        public static string GenericString(int lenght)
         {
             Random rnd = new Random();
             StringBuilder sb = new StringBuilder(lenght - 1);
@@ -18,22 +19,22 @@ namespace Lesson_4
             }
             return sb.ToString();
         }
-        public static List<string> ListString(int num, string set, int lenght)
+        public static List<string> ListString(int num, int lenght)
         {
             List<string> stringList = new List<string>();
             for (int i = 0; i < num; i++)
             {
-                string newString = GenericString(set, lenght);
-                stringList.Add(newString);
+                string newString = GenericString(lenght);
+                if (stringList.Contains(newString))
+                {
+                    i--;
+                }
+                else
+                {
+                    stringList.Add(newString);
+                }
             }
             return stringList;
         }
-        //public static void DisplayString(List<string> strList)
-        //{
-        //    for(int i = 0; i < strList.Count; i++)
-        //    {
-        //        Console.WriteLine($"{strList[i]}\n\r");
-        //    }
-        //}
     }
 }

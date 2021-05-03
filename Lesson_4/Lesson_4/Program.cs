@@ -5,24 +5,19 @@ using BenchmarkDotNet.Running;
 
 namespace Lesson_4
 {
-
+   
     class Program
     {
         static void Main(string[] args)
         {
-            //GenString.DisplayString(strList);
-
-            //TestSearch.ArraySearch(strList);
-            //TestSearch.HashSetSearch(strList);
-            BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args);
+            //BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args);
             Console.ReadKey();
         }
     }
     public class TestSearch
     {
+
         public string RandomString { get; set; }
-        public List<string> strList = GenString.ListString(100, "qwertyuiopasdfghjklzxcvbnm1029384756", 6);
-        //public HashSet<TestSearch> hashSet;
         public override bool Equals(object obj)
         {
             var user = obj as TestSearch;
@@ -37,53 +32,54 @@ namespace Lesson_4
             int RandomStringCode = RandomString?.GetHashCode() ?? 0;
             return RandomStringCode;
         }
-        //public TestSearch ListToHashSet(List<string> strList)
-        //{
-        //    var hashSet = new HashSet<TestSearch>();
-        //    for (int i = 0; i < strList.Count; i++)
-        //    {
-        //        var strHash = new TestSearch() { RandomString = strList[i] };
-        //        hashSet.Add(strHash);
-        //    }
-        //    return hashSet;
-        //}
-    
-
-        [Benchmark]
-        public void HashSetSearch()
+        
+        public static HashSet<TestSearch> ListToHashSet()
         {
-            Random rnd = new Random();
+            List<string> strList = GenString.ListString(10000, 8);
             var hashSet = new HashSet<TestSearch>();
             for (int i = 0; i < strList.Count; i++)
             {
                 var strHash = new TestSearch() { RandomString = strList[i] };
                 hashSet.Add(strHash);
             }
-            var rndString = new TestSearch() { RandomString = strList[rnd.Next(0, 100)] };
-            Console.WriteLine($"contains string {hashSet.Contains(rndString)}, {rndString.RandomString}");
+            return hashSet;
         }
-        [Benchmark]
-        public void ArraySearch()
+
+        public static string[] ListToArray()
         {
-            var result = false;
-            Random rnd = new Random();
+            List<string> strList = GenString.ListString(10000, 8);
             int k = strList.Count;
             string[] arrayString = new string[k];
             for (int i = 0; i < strList.Count; i++)
             {
                 arrayString[i] = strList[i];
             }
-            var rndString = arrayString[rnd.Next(0, 100)];
+            return arrayString;
+        }
+
+        [Benchmark]
+        public void HashSetSearch()
+        {
+            HashSet<TestSearch> hashSet = ListToHashSet();
+            var rndString = new TestSearch() { RandomString = "19847635"};
+            Console.WriteLine($"Contains string {hashSet.Contains(rndString)}");
+        }
+        [Benchmark]
+        public void ArraySearch()
+        {
+            string[] arrayString = ListToArray();
+            var result = false;
+            var rndString = "19847635";
             foreach (var str in arrayString)
             {
                 if (str == rndString)
                 {
                     result = true;
-                    Console.WriteLine($"contains string {result}, {str}");
+                    Console.WriteLine($"contains string {result}");
                 }
                 else
                 {
-                    Console.WriteLine($"contains string {result}, {str}");
+                    Console.WriteLine($"contains string {result}");
                 }
             }
 
